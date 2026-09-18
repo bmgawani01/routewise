@@ -269,7 +269,8 @@ app.put('/api/application/review', async (req, res) => {
       'UPDATE applications SET status = ?, reviewed_at = NOW(), review_notes = ?, reviewed_by = ? WHERE driver_id = ?',
       [decision, notes || null, 'Operations admin', driver_id]
     );
-    await pool.query('UPDATE drivers SET status = IF(? = "approved", "active", "rejected") WHERE driver_id = ?', [decision, driver_id]);
+    const driverStatus = decision === 'approved' ? 'active' : 'rejected';
+    await pool.query('UPDATE drivers SET status = ? WHERE driver_id = ?', [driverStatus, driver_id]);
     res.json({ ok: true, status: decision });
   } catch (err) {
     res.status(500).json({ error: err.message });
