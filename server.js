@@ -89,12 +89,12 @@ function otpResponse(res, code, phone) {
   res.json({ ok: true, message: 'Verification code sent.', demo_code: code });
 }
 
-app.get('/health', async (req, res) => {
+app.get('/keep-db-alive', async (req, res) => {
   try {
     await pool.query('SELECT 1');
-    res.json({ ok: true, db: 'connected' });
-  } catch (err) {
-    res.status(500).json({ ok: false, db: 'unreachable', message: err.message });
+    res.send('DB is awake');
+  } catch (e) {
+    res.status(500).send('DB down');
   }
 });
 
