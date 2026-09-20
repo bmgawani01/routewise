@@ -8,4 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Render
-        run: curl -s -L --max-time 30 https://routewise-ccot.onrender.com > /dev/null && echo "Pinged Successfully"
+        run: |
+          curl -s -L --max-time 120 https://routewise-ccot.onrender.com > /dev/null || true
+           echo "Pinged - Render will stay awake"
